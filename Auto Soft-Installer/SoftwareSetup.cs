@@ -101,7 +101,7 @@ namespace Auto_Soft_Installer
                 Library.Library.MessageBoxDisplayer(message: message);
                 return false;
             }
-            if (software != null) software.Close();
+            //if (software != null) software.Close();
             return false;
         }
 

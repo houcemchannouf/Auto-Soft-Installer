@@ -94,7 +94,7 @@ namespace Auto_Soft_Installer
                             if (localElements.softwares[index: i].CompareTo(obj: serverElements.softwares[j]) == 1)
                             {
                                 //  il sera supprimé de la liste des logiciels disponibles sur le serveur
-                                serverElements.softwares.RemoveAt(j);
+                                serverElements.softwares.RemoveAt(index: j);
                             }
                         }
                     }
@@ -106,7 +106,7 @@ namespace Auto_Soft_Installer
                         //  Telechargement du fichier d'installation compressé
                         Ftp.Download(fileName: serverElements.softwares[index: i].Name);
 
-                        var I = new SoftwareSetup(setupFile: serverElements.softwares[index: i].SetupFile, localDirectory: _downloadDirectory + "\\", name: serverElements.softwares[i].Name);
+                        var I = new SoftwareSetup(setupFile: serverElements.softwares[index: i].SetupFile, localDirectory: _downloadDirectory + "\\", name: serverElements.softwares[index: i].Name);
 
                         //  Decompression des fichier d'installation
                         I.Unzip();

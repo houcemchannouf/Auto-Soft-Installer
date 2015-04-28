@@ -110,11 +110,11 @@ namespace Auto_Soft_Installer
                                 }
                             }
                             //  Fermeture des flux
-                            fluxLocalFile.Close();
+                            //fluxLocalFile.Close();
                         }
-                        if (ftpStream != null) ftpStream.Close();
+                        //if (ftpStream != null) ftpStream.Close();
                     }
-                    ftpWebResponse.Close();
+                    //ftpWebResponse.Close();
                 }
                 _ftpWebRequest = null;
             }
