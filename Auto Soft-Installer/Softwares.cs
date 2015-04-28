@@ -46,10 +46,10 @@ namespace Auto_Soft_Installer
         /// <param name="destinationPath"></param>
         public void XmlWriter(string destinationPath)
         {
-            var serializer = new XmlSerializer(typeof (Softwares));
-            using (var writer = new StreamWriter(destinationPath))
+            var serializer = new XmlSerializer(type: typeof (Softwares));
+            using (var writer = new StreamWriter(path: destinationPath))
             {
-                serializer.Serialize(writer, this);
+                serializer.Serialize(textWriter: writer, o: this);
             }
         }
 

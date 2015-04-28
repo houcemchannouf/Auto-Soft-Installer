@@ -68,10 +68,10 @@ namespace Auto_Soft_Installer
         /// </summary>
         internal void Run()
         {
-            Library.Library.LogFileWriter("Program launched");
+            Library.Library.LogFileWriter(message: "Program launched");
 
             //  Téléchargement du fichier XML à partir du serveur FTP
-            if (!Ftp.Download(_serverXmlFileName))
+            if (!Ftp.Download(fileName: _serverXmlFileName))
                 OnException();
             else
             {
@@ -91,7 +91,7 @@ namespace Auto_Soft_Installer
                     {
                         for (var j = 0; j < serverElements.softwares.Count; j++)
                         {
-                            if (localElements.softwares[i].CompareTo(serverElements.softwares[j]) == 1)
+                            if (localElements.softwares[index: i].CompareTo(obj: serverElements.softwares[j]) == 1)
                             {
                                 //  il sera supprimé de la liste des logiciels disponibles sur le serveur
                                 serverElements.softwares.RemoveAt(j);
@@ -104,10 +104,9 @@ namespace Auto_Soft_Installer
                     for (var i = 0; i < serverElements.softwares.Count; i++)
                     {
                         //  Telechargement du fichier d'installation compressé
-                        Ftp.Download(serverElements.softwares[i].Name);
+                        Ftp.Download(fileName: serverElements.softwares[index: i].Name);
 
-                        var I = new SoftwareSetup(serverElements.softwares[i].SetupFile, _downloadDirectory + "\\",
-                            serverElements.softwares[i].Name);
+                        var I = new SoftwareSetup(setupFile: serverElements.softwares[index: i].SetupFile, localDirectory: _downloadDirectory + "\\", name: serverElements.softwares[i].Name);
 
                         //  Decompression des fichier d'installation
                         I.Unzip();
@@ -118,29 +117,27 @@ namespace Auto_Soft_Installer
                             //  Ajouter les éléments restants dans la liste des logiciels 
                             //  disponibles sur le serveur à la liste des logiciels installés 
                             //  (après installation)
-                            localElements.softwares.Add(serverElements.softwares[i]);
+                            localElements.softwares.Add(item: serverElements.softwares[index: i]);
 
                             //  Effacer les fichiers d'installation
-                            Directory.Delete(
-                                _downloadDirectory + "\\" + serverElements.softwares[i].Name.Replace(".zip", ""),
-                                true);
+                            Directory.Delete(path: _downloadDirectory + "\\" + serverElements.softwares[index: i].Name.Replace(oldValue: ".zip", newValue: ""), recursive: true);
                         }
 
                         //  Effacer l'archive téléchargé
-                        File.Delete(_downloadDirectory + "\\" + serverElements.softwares[i].Name);
+                        File.Delete(path: _downloadDirectory + "\\" + serverElements.softwares[index: i].Name);
                     }
 
                     //  Ecriture dans le fichier XML local
-                    localElements.XmlWriter(_downloadDirectory + "\\" + _localXmlFileName);
+                    localElements.XmlWriter(destinationPath: _downloadDirectory + "\\" + _localXmlFileName);
 
                     //  Programme executé sans erreurs ni exceptions (avec risque de logiciel non installé
                     //  car ça dépend des fichiers d'installations)
-                    Library.Library.LogFileWriter("Program finished");
+                    Library.Library.LogFileWriter(message: "Program finished");
                     IsFinished = true;
                 }
 
                 //  Supprime le fichier logiciels.xml téléchargé du serveur FTP
-                File.Delete(_downloadDirectory + "\\" + _serverXmlFileName);
+                File.Delete(path: _downloadDirectory + "\\" + _serverXmlFileName);
             }
         }
 

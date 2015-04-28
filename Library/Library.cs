@@ -35,16 +35,16 @@ namespace Library
         /// <param name="message"></param>
         public static void LogFileWriter(string message)
         {
-            var logFilePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Log.txt";
+            var logFilePath = Environment.GetFolderPath(folder: Environment.SpecialFolder.MyDocuments) + @"\Log.txt";
             try
             {
                 if (!File.Exists(logFilePath))
                 {
                     File.Create(logFilePath);
                 }
-                using (var sw = new StreamWriter(logFilePath, true))
+                using (var sw = new StreamWriter(path: logFilePath, append: true))
                 {
-                    sw.WriteLine(DateTime.Now + ": " + message);
+                    sw.WriteLine(value: DateTime.Now + ": " + message);
                     sw.Flush();
                     sw.Close();
                 }
@@ -74,7 +74,7 @@ namespace Library
         /// <param name="message"></param>
         public static void MessageBoxDisplayer(string message)
         {
-            MessageBox.Show(message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show(message, "Erreur", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Exclamation);
         }
 
         /// <summary>
@@ -88,12 +88,12 @@ namespace Library
         /// <param name="name"></param>
         public static void AddToStartupPrograms(string name)
         {
-            using (var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+            using (var key = Registry.CurrentUser.OpenSubKey(name: @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", writable: true))
             {
                 if (key == null) return;
                 var value = key.GetValue(name);
                 if (value != null) return;
-                key.SetValue("name", "\"" + Application.ExecutablePath + "\"");
+                key.SetValue(name: "name", value: "\"" + Application.ExecutablePath + "\"");
                 key.Close();
             }
         }

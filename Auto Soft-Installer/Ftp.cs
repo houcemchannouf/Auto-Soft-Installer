@@ -52,9 +52,9 @@ namespace Auto_Soft_Installer
         /// <summary>
         ///     Connexion au serveur FTP.
         /// </summary>
-        private static void FtpConnection()
+        private static void FtpCredential()
         {
-            _ftpWebRequest.Credentials = new NetworkCredential(UserName, Password);
+            _ftpWebRequest.Credentials = new NetworkCredential(userName: UserName, password: Password);
             _ftpWebRequest.UseBinary = true;
             _ftpWebRequest.UsePassive = true;
             _ftpWebRequest.KeepAlive = true;
@@ -67,15 +67,15 @@ namespace Auto_Soft_Installer
         public static bool Download(string fileName)
         {
             //  Création requete de connexion FTP
-            _ftpWebRequest = (FtpWebRequest) WebRequest.Create("ftp://" + ServerIp + "/" + fileName);
+            _ftpWebRequest = (FtpWebRequest) WebRequest.Create(requestUriString: "ftp://" + ServerIp + "/" + fileName);
 
             //  Connexion au serveur FTP
-            FtpConnection();
+            FtpCredential();
 
             // Type de la requete FTP : RETR qui représente le téléchargement depuis le serveur
             _ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
 
-            Library.Library.LogFileWriter("Connexion au serveur à l'@" + ServerIp);
+            Library.Library.LogFileWriter(message: "Connexion au serveur à l'@" + ServerIp);
             try
             {
                 //  Retourne la réponse du serveur
@@ -84,29 +84,28 @@ namespace Auto_Soft_Installer
                     using (var ftpStream = ftpWebResponse.GetResponseStream())
                     {
                         using (
-                            var fluxLocalFile = new FileStream(DownloadDirectory + "\\" + fileName,
-                                FileMode.Create))
+                            var fluxLocalFile = new FileStream(path: DownloadDirectory + "\\" + fileName, mode: FileMode.Create))
                         {
                             var byteBuffer = new byte[BufferSize];
                             if (ftpStream != null)
                             {
-                                Library.Library.LogFileWriter("téléchargement du fichier " + fileName);
-                                var bytesRead = ftpStream.Read(byteBuffer, 0, BufferSize);
+                                Library.Library.LogFileWriter(message: "téléchargement du fichier " + fileName);
+                                var bytesRead = ftpStream.Read(buffer: byteBuffer, offset: 0, count: BufferSize);
 
                                 //  Telecharge le fichier en ecrivant les données du buffer jusqu'a ce que le transfert est terminé
                                 try
                                 {
                                     while (bytesRead > 0)
                                     {
-                                        fluxLocalFile.Write(byteBuffer, 0, bytesRead);
-                                        bytesRead = ftpStream.Read(byteBuffer, 0, BufferSize);
+                                        fluxLocalFile.Write(array: byteBuffer, offset: 0, count: bytesRead);
+                                        bytesRead = ftpStream.Read(buffer: byteBuffer, offset: 0, count: BufferSize);
                                     }
                                 }
                                 catch (Exception)
                                 {
                                     var message = "Erreur lors du téléchargement du fichier " + fileName +
                                                   "à partir du serveur FTP";
-                                    Library.Library.LogFileWriter(message);
+                                    Library.Library.LogFileWriter(message: message);
                                     return false;
                                 }
                             }
@@ -122,7 +121,7 @@ namespace Auto_Soft_Installer
             catch (Exception)
             {
                 var message = "Impossible de télécharger le fichier " + fileName;
-                Library.Library.LogFileWriter(message);
+                Library.Library.LogFileWriter(message: message);
                 return false;
             }
             return true;

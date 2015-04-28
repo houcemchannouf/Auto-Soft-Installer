@@ -56,14 +56,14 @@ namespace Auto_Soft_Installer
         public void Unzip()
         {
             //  Si le fichier n'existe pas, ne rien faire
-            if (!File.Exists(Name)) return;
+            if (!File.Exists(path: Name)) return;
             //  Verifie si le dossier existe déjà ou non
-            if (Directory.Exists(XtractionDirectory))
+            if (Directory.Exists(path: XtractionDirectory))
             {
                 //  Si oui, le supprimer avec tout son contenu
-                Directory.Delete(XtractionDirectory, true);
+                Directory.Delete(path: XtractionDirectory, recursive: true);
             }
-            ZipFile.ExtractToDirectory(LocalPath + "\\" + Name, XtractionDirectory);
+            ZipFile.ExtractToDirectory(sourceArchiveFileName: LocalPath + "\\" + Name, destinationDirectoryName: XtractionDirectory);
         }
 
         /// <summary>
@@ -73,12 +73,12 @@ namespace Auto_Soft_Installer
         /// <returns> Boolean </returns>
         public bool Setup()
         {
-            var softwareInformation = new ProcessStartInfo(XtractionDirectory + "\\" + SetupFile);
+            var softwareInformation = new ProcessStartInfo(fileName: XtractionDirectory + "\\" + SetupFile);
             Process software;
             try
             {
                 // Lancement du processus
-                using (software = Process.Start(softwareInformation))
+                using (software = Process.Start(startInfo: softwareInformation))
                 {
                     if (software != null)
                     {
@@ -94,11 +94,11 @@ namespace Auto_Soft_Installer
             }
             catch (Exception)
             {
-                var softwareNames = new List<string>(XtractionDirectory.Split(Convert.ToChar("\\")));
+                var softwareNames = new List<string>(collection: XtractionDirectory.Split(Convert.ToChar(value: "\\")));
                 var message = "Erreur lors de l'installation du logiciel ( " +
-                              softwareNames[softwareNames.Count - 1] + " )";
-                Library.Library.LogFileWriter(message);
-                Library.Library.MessageBoxDisplayer(message);
+                              softwareNames[index: softwareNames.Count - 1] + " )";
+                Library.Library.LogFileWriter(message: message);
+                Library.Library.MessageBoxDisplayer(message: message);
                 return false;
             }
             if (software != null) software.Close();

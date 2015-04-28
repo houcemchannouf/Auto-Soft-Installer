@@ -26,8 +26,8 @@ namespace Auto_Soft_Installer
 
         public Xml(string localPath, string name)
         {
-            if (name != null) Name = name;
-            if (localPath != null) LocalPath = localPath;
+            Name = name;
+            LocalPath = localPath;
         }
 
         #endregion
@@ -43,10 +43,10 @@ namespace Auto_Soft_Installer
             Softwares xmlData = null;
             try
             {
-                var deserializer = new XmlSerializer(typeof (Softwares));
-                using (var reader = new StreamReader(LocalPath))
+                var deserializer = new XmlSerializer(type: typeof (Softwares));
+                using (var reader = new StreamReader(path: LocalPath))
                 {
-                    var obj = deserializer.Deserialize(reader);
+                    var obj = deserializer.Deserialize(textReader: reader);
                     xmlData = (Softwares) obj;
                     reader.Close();
                 }
@@ -54,7 +54,7 @@ namespace Auto_Soft_Installer
             catch (Exception)
             {
                 const string message = "Fichier XML introuvable ou fichier XML corrompu (Vérifiez Syntaxe)";
-                Library.Library.LogFileWriter(message);
+                Library.Library.LogFileWriter(message: message);
             }
             return xmlData;
         }
