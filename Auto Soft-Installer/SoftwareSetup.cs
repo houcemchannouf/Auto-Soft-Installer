@@ -71,12 +71,11 @@ namespace Auto_Soft_Installer
         /// <returns> Boolean </returns>
         public bool Setup()
         {
-            //return ProcessStarter.StartProcessAsCurrentUser("calc.exe", null);
             var softwareInformation = new ProcessStartInfo(XtractionDirectory + "\\" + SetupFile);
+            Process software;
             try
             {
                 // Lancement du processus
-                Process software;
                 using (software = Process.Start(softwareInformation))
                 {
                     if (software != null)
@@ -100,7 +99,7 @@ namespace Auto_Soft_Installer
                 Library.Library.MessageBoxDisplayer(message);
                 return false;
             }
-            //if (logiciel != null) logiciel.Close();
+            if (software != null) software.Close();
             return false;
         }
 
