@@ -1,0 +1,109 @@
+﻿/***************** En-tête du module ******************\
+ * Nom du module :   SoftwareSetup.cs
+ * Projet        :   Développement d'un service Windows
+ * Développeurs  :   Abdelkafi Ahmed & Channouf Houcem
+ * 
+ * Le fichier définit la classe SoftwareSetup qui hérite
+ * de la classe Files.
+ * 
+ * Cette classe sert à décompresser les archives
+ * d'installations téléchargés et d'executer les
+ * fichiers d'installation.
+ * 
+\******************************************************/
+
+#region Directives 'Using'
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+
+#endregion
+
+namespace Auto_Soft_Installer
+{
+    internal class SoftwareSetup : Files
+    {
+        #region Constructeur
+
+        public SoftwareSetup(string setupFile, string localDirectory, string name)
+        {
+            LocalPath = localDirectory;
+            Name = name;
+            SetupFile = setupFile;
+            XtractionDirectory = localDirectory + "\\" + name.Replace(".zip", "");
+        }
+
+        #endregion
+
+        #region Propriétés
+
+        //  Nom du fichier d'installation
+        private string SetupFile { get; set; }
+
+        //  Chemin du dossier d'extraction du fichier ZIP
+        private string XtractionDirectory { get; set; }
+
+        #endregion
+
+        #region Méthodes
+
+        /// <summary>
+        ///     Extraire le fichier ZIP dans le dossier d'extraction.
+        /// </summary>
+        public void Unzip()
+        {
+            //  Verifie si le dossier existe déjà ou non
+            if (Directory.Exists(XtractionDirectory))
+            {
+                //  Si oui, le supprimer avec tout son contenu
+                Directory.Delete(XtractionDirectory, true);
+            }
+            ZipFile.ExtractToDirectory(LocalPath + "\\" + Name, XtractionDirectory);
+        }
+
+        /// <summary>
+        ///     Lancer le fichier d'installation,
+        ///     retourne TRUE si l'installation réussi et FALSE sinon.
+        /// </summary>
+        /// <returns> Boolean </returns>
+        public bool Setup()
+        {
+            //return ProcessStarter.StartProcessAsCurrentUser("calc.exe", null);
+            var softwareInformation = new ProcessStartInfo(XtractionDirectory + "\\" + SetupFile);
+            try
+            {
+                // Lancement du processus
+                Process software;
+                using (software = Process.Start(softwareInformation))
+                {
+                    if (software != null)
+                    {
+                        // Attente de l'arret de l'installation
+                        software.WaitForExit();
+
+                        //  Raffraichie les attributs du Process
+                        if (software.HasExited) software.Refresh();
+                    }
+
+                    if (software != null && software.ExitCode == 0) return true;
+                }
+            }
+            catch (Exception)
+            {
+                var nomLogiciel = new List<string>(XtractionDirectory.Split(Convert.ToChar("\\")));
+                var message = "Erreur lors de l'installation du logiciel, Contactez votre administrateur systéme ! ( " +
+                              nomLogiciel[nomLogiciel.Count - 1] + " )";
+                Library.Library.LogFileWriter(message);
+                Library.Library.MessageBoxDisplayer(message);
+                return false;
+            }
+            //if (logiciel != null) logiciel.Close();
+            return false;
+        }
+
+        #endregion
+    }
+}
