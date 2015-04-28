@@ -48,7 +48,7 @@ namespace Auto_Soft_Installer
                 {
                     var obj = deserializer.Deserialize(reader);
                     xmlData = (Softwares) obj;
-                    //lecteur.Close();
+                    reader.Close();
                 }
             }
             catch (Exception)

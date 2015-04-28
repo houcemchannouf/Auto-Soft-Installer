@@ -55,6 +55,8 @@ namespace Auto_Soft_Installer
         /// </summary>
         public void Unzip()
         {
+            //  Si le fichier n'existe pas, ne rien faire
+            if (!File.Exists(Name)) return;
             //  Verifie si le dossier existe déjà ou non
             if (Directory.Exists(XtractionDirectory))
             {
@@ -92,9 +94,9 @@ namespace Auto_Soft_Installer
             }
             catch (Exception)
             {
-                var nomLogiciel = new List<string>(XtractionDirectory.Split(Convert.ToChar("\\")));
-                var message = "Erreur lors de l'installation du logiciel, Contactez votre administrateur systéme ! ( " +
-                              nomLogiciel[nomLogiciel.Count - 1] + " )";
+                var softwareNames = new List<string>(XtractionDirectory.Split(Convert.ToChar("\\")));
+                var message = "Erreur lors de l'installation du logiciel ( " +
+                              softwareNames[softwareNames.Count - 1] + " )";
                 Library.Library.LogFileWriter(message);
                 Library.Library.MessageBoxDisplayer(message);
                 return false;

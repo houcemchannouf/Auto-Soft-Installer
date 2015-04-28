@@ -68,7 +68,7 @@ namespace Auto_Soft_Installer
         /// </summary>
         internal void Run()
         {
-            Library.Library.LogFileWriter("Program Launched");
+            Library.Library.LogFileWriter("Program launched");
 
             //  Téléchargement du fichier XML à partir du serveur FTP
             if (!Ftp.Download(_serverXmlFileName))
@@ -135,7 +135,7 @@ namespace Auto_Soft_Installer
 
                     //  Programme executé sans erreurs ni exceptions (avec risque de logiciel non installé
                     //  car ça dépend des fichiers d'installations)
-                    Library.Library.LogFileWriter("Program complete");
+                    Library.Library.LogFileWriter("Program finished");
                     IsFinished = true;
                 }
 

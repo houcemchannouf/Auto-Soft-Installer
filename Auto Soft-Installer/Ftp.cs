@@ -66,61 +66,62 @@ namespace Auto_Soft_Installer
         /// <param name="fileName"></param>
         public static bool Download(string fileName)
         {
+            //  Création requete de connexion FTP
+            _ftpWebRequest = (FtpWebRequest) WebRequest.Create("ftp://" + ServerIp + "/" + fileName);
+
+            //  Connexion au serveur FTP
+            FtpConnection();
+
+            // Type de la requete FTP : RETR qui représente le téléchargement depuis le serveur
+            _ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+
+            Library.Library.LogFileWriter("Connexion au serveur à l'@" + ServerIp);
             try
             {
-                //  Création requete de connexion FTP
-                _ftpWebRequest = (FtpWebRequest) WebRequest.Create("ftp://" + ServerIp + "/" + fileName);
-
-                //  Connexion au serveur FTP
-                FtpConnection();
-
-                // Type de la requete FTP : RETR qui représente le téléchargement depuis le serveur
-                _ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
-
                 //  Retourne la réponse du serveur
                 using (var ftpWebResponse = (FtpWebResponse) _ftpWebRequest.GetResponse())
                 {
-                    using (var fluxFtp = ftpWebResponse.GetResponseStream())
+                    using (var ftpStream = ftpWebResponse.GetResponseStream())
                     {
                         using (
-                            var fluxFichierLocal = new FileStream(DownloadDirectory + "\\" + fileName,
+                            var fluxLocalFile = new FileStream(DownloadDirectory + "\\" + fileName,
                                 FileMode.Create))
                         {
                             var byteBuffer = new byte[BufferSize];
-                            if (fluxFtp != null)
+                            if (ftpStream != null)
                             {
-                                var bytesRead = fluxFtp.Read(byteBuffer, 0, BufferSize);
+                                Library.Library.LogFileWriter("téléchargement du fichier " + fileName);
+                                var bytesRead = ftpStream.Read(byteBuffer, 0, BufferSize);
 
                                 //  Telecharge le fichier en ecrivant les données du buffer jusqu'a ce que le transfert est terminé
                                 try
                                 {
                                     while (bytesRead > 0)
                                     {
-                                        fluxFichierLocal.Write(byteBuffer, 0, bytesRead);
-                                        bytesRead = fluxFtp.Read(byteBuffer, 0, BufferSize);
+                                        fluxLocalFile.Write(byteBuffer, 0, bytesRead);
+                                        bytesRead = ftpStream.Read(byteBuffer, 0, BufferSize);
                                     }
                                 }
                                 catch (Exception)
                                 {
-                                    const string message =
-                                        "Erreur lors du téléchargement du fichier à partir du serveur FTP";
+                                    var message = "Erreur lors du téléchargement du fichier " + fileName +
+                                                  "à partir du serveur FTP";
                                     Library.Library.LogFileWriter(message);
                                     return false;
                                 }
                             }
                             //  Fermeture des flux
-                            //fluxFichierLocal.Close();
+                            fluxLocalFile.Close();
                         }
-                        //if (fluxFtp != null) fluxFtp.Close();
+                        if (ftpStream != null) ftpStream.Close();
                     }
-                    //ftpWebResponse.Close();
+                    ftpWebResponse.Close();
                 }
                 _ftpWebRequest = null;
             }
             catch (Exception)
             {
-                const string message =
-                    "Impossible de se connecter au serveur FTP, Contactez votre administrateur réseau !";
+                var message = "Impossible de télécharger le fichier " + fileName;
                 Library.Library.LogFileWriter(message);
                 return false;
             }
