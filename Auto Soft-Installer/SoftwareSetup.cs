@@ -74,11 +74,10 @@ namespace Auto_Soft_Installer
         public bool Setup()
         {
             var softwareInformation = new ProcessStartInfo(fileName: XtractionDirectory + "\\" + SetupFile);
-            Process software;
             try
             {
                 // Lancement du processus
-                using (software = Process.Start(startInfo: softwareInformation))
+                using (var software = Process.Start(startInfo: softwareInformation))
                 {
                     if (software != null)
                     {

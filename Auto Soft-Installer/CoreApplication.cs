@@ -34,11 +34,11 @@ namespace Auto_Soft_Installer
         {
             AnyException = false;
             IsFinished = false;
-            _serverXmlFileName = Library.Library.SettingsReader("serverXmlFileName");
-            _localXmlFileName = Library.Library.SettingsReader("localXmlFileName");
-            _downloadDirectory = Library.Library.SettingsReader("downloadDirectory");
-            _localXmlFile = new Xml(_downloadDirectory + "\\" + _localXmlFileName, _localXmlFileName);
-            _serverXmlFile = new Xml(_downloadDirectory + "\\" + _serverXmlFileName, _serverXmlFileName);
+            _serverXmlFileName = Library.Library.SettingsReader(key: "serverXmlFileName");
+            _localXmlFileName = Library.Library.SettingsReader(key: "localXmlFileName");
+            _downloadDirectory = Library.Library.SettingsReader(key: "downloadDirectory");
+            _localXmlFile = new Xml(localPath: _downloadDirectory + "\\" + _localXmlFileName, name: _localXmlFileName);
+            _serverXmlFile = new Xml(localPath: _downloadDirectory + "\\" + _serverXmlFileName, name: _serverXmlFileName);
         }
 
         #endregion

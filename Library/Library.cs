@@ -63,7 +63,7 @@ namespace Library
         public static string SettingsReader(string key)
         {
             var appSettings = ConfigurationManager.AppSettings;
-            var result = appSettings[key] ?? "clée non trouvée";
+            var result = appSettings[name: key] ?? "clée non trouvée";
             return result;
         }
 
@@ -74,7 +74,7 @@ namespace Library
         /// <param name="message"></param>
         public static void MessageBoxDisplayer(string message)
         {
-            MessageBox.Show(message, "Erreur", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Exclamation);
+            MessageBox.Show(text: message, caption: "Erreur", buttons: MessageBoxButtons.OK, icon: MessageBoxIcon.Exclamation);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Library
             using (var key = Registry.CurrentUser.OpenSubKey(name: @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", writable: true))
             {
                 if (key == null) return;
-                var value = key.GetValue(name);
+                var value = key.GetValue(name: name);
                 if (value != null) return;
                 key.SetValue(name: "name", value: "\"" + Application.ExecutablePath + "\"");
                 key.Close();
