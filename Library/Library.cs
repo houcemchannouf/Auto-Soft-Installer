@@ -46,7 +46,7 @@ namespace Library
                 {
                     sw.WriteLine(value: DateTime.Now + ": " + message);
                     sw.Flush();
-                    sw.Close();
+                    //sw.Close();
                 }
             }
             catch
@@ -94,7 +94,7 @@ namespace Library
                 var value = key.GetValue(name: name);
                 if (value != null) return;
                 key.SetValue(name: "name", value: "\"" + Application.ExecutablePath + "\"");
-                key.Close();
+                //key.Close();
             }
         }
 
