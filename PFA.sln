@@ -8,6 +8,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{EA3D687B-3364-483F-8C18-158A0822379F}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Setup", "Setup\Setup.isproj", "{2AC8D30F-4DD1-4F4D-B9CF-E1FD0CD1015C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EA3D687B-3364-483F-8C18-158A0822379F} = {EA3D687B-3364-483F-8C18-158A0822379F}
+		{702D3CC7-A1C5-40E7-BBA1-86BAAF80F2F7} = {702D3CC7-A1C5-40E7-BBA1-86BAAF80F2F7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
