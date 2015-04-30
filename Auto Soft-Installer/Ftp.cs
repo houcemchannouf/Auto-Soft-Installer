@@ -21,7 +21,12 @@ using System.Net;
 
 namespace Auto_Soft_Installer
 {
-    internal static class Ftp
+    /// <summary>
+    ///     Cette classe contient la méthode de connexion au
+    ///     serveur FTP distant, et celle du téléchargement
+    ///     d'un fichier depuis le serveur FTP.
+    /// </summary>
+    public static class Ftp
     {
         #region Constructeur
 
@@ -30,7 +35,6 @@ namespace Auto_Soft_Installer
             ServerIp = Library.Library.SettingsReader("serverIp");
             UserName = Library.Library.SettingsReader("userName");
             Password = Library.Library.SettingsReader("password");
-            DownloadDirectory = Library.Library.SettingsReader("downloadDirectory");
             BufferSize = Convert.ToInt32(Library.Library.SettingsReader("bufferSize"));
         }
 
@@ -41,7 +45,6 @@ namespace Auto_Soft_Installer
         private static readonly string ServerIp;
         private static readonly string UserName;
         private static readonly string Password;
-        private static readonly string DownloadDirectory;
         private static readonly int BufferSize;
         private static FtpWebRequest _ftpWebRequest;
 
@@ -64,7 +67,8 @@ namespace Auto_Soft_Installer
         ///     Télecharge un fichier à partir du serveur FTP.
         /// </summary>
         /// <param name="fileName"></param>
-        public static bool Download(string fileName)
+        /// <param name="downloadDirectory"></param>
+        public static bool Download(string fileName,string downloadDirectory)
         {
             //  Création requete de connexion FTP
             _ftpWebRequest = (FtpWebRequest) WebRequest.Create(requestUriString: "ftp://" + ServerIp + "/" + fileName);
@@ -84,7 +88,7 @@ namespace Auto_Soft_Installer
                     using (var ftpStream = ftpWebResponse.GetResponseStream())
                     {
                         using (
-                            var fluxLocalFile = new FileStream(path: DownloadDirectory + "\\" + fileName, mode: FileMode.Create))
+                            var fluxLocalFile = new FileStream(path: Path.Combine(path1: downloadDirectory, path2: fileName), mode: FileMode.Create))
                         {
                             var byteBuffer = new byte[BufferSize];
                             if (ftpStream != null)

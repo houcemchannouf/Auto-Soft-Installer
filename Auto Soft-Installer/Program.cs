@@ -11,6 +11,7 @@
 #region Directives 'Using'
 
 using System;
+using System.IO;
 using System.Threading;
 
 #endregion
@@ -22,13 +23,23 @@ namespace Auto_Soft_Installer
     /// </summary>
     public static class Program
     {
+        #region Méthodes
+
+        /// <summary>
+        ///     Méthode Main()
+        /// </summary>
         [STAThread]
-        private static void Main()
+        public static void Main()
         {
             //  Ajoute le programme à la liste des programmes de démarrage
             //  du systéme d'exploitation
             Library.Library.AddToStartupPrograms(name: "Software Auto-install");
 
+            //  Ajouter les permissions Full Control aux dossier ENIT et Auto Soft-Installer
+            //  dans le dossier de donnés d'application ProgramData
+            Library.Library.SetFolderPermission(
+                directory: Directory.GetParent(Library.Library.GetAppDataPath()).ToString());
+            Library.Library.SetFolderPermission(directory: Library.Library.GetAppDataPath());
 
             var sleepPeriod = Convert.ToInt32(value: Library.Library.SettingsReader(key: "sleepPeriod"));
 
@@ -45,8 +56,7 @@ namespace Auto_Soft_Installer
                 if (app.AnyException)
                 {
                     Library.Library.LogFileWriter(message: "Exception levée, reprise du service après " + sleepPeriod +
-                                                  " secondes");
-                    Library.Library.MessageBoxDisplayer(message: "Contactez vos administrateurs réseau et systéme !");
+                                                           " secondes");
 
                     //  Le paramètre de la méthode Sleep 
                     //  de la classe Thread à pour unité
@@ -59,5 +69,8 @@ namespace Auto_Soft_Installer
                 app.Run();
             }
         }
+
+        #endregion
+
     }
 }

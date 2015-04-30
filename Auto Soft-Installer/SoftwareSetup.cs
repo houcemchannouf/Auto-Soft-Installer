@@ -24,16 +24,27 @@ using System.IO.Compression;
 
 namespace Auto_Soft_Installer
 {
-    internal class SoftwareSetup : Files
+    /// <summary>
+    ///     Cette classe sert à décompresser les archives
+    ///     d'installations téléchargés et d'executer les
+    ///     fichiers d'installation.
+    /// </summary>
+    public class SoftwareSetup : Files
     {
         #region Constructeur
 
+        /// <summary>
+        ///     Constructeur
+        /// </summary>
+        /// <param name="setupFile"></param>
+        /// <param name="localDirectory"></param>
+        /// <param name="name"></param>
         public SoftwareSetup(string setupFile, string localDirectory, string name)
         {
             LocalPath = localDirectory;
             Name = name;
             SetupFile = setupFile;
-            XtractionDirectory = localDirectory + "\\" + name.Replace(".zip", "");
+            XtractionDirectory = Path.Combine(path1: localDirectory, path2: name.Replace(".zip", ""));
         }
 
         #endregion
@@ -56,14 +67,14 @@ namespace Auto_Soft_Installer
         public void Unzip()
         {
             //  Si le fichier n'existe pas, ne rien faire
-            if (!File.Exists(path: Name)) return;
+            if (!File.Exists(path: Path.Combine(path1: LocalPath , path2: Name))) return;
             //  Verifie si le dossier existe déjà ou non
             if (Directory.Exists(path: XtractionDirectory))
             {
                 //  Si oui, le supprimer avec tout son contenu
                 Directory.Delete(path: XtractionDirectory, recursive: true);
             }
-            ZipFile.ExtractToDirectory(sourceArchiveFileName: LocalPath + "\\" + Name, destinationDirectoryName: XtractionDirectory);
+            ZipFile.ExtractToDirectory(sourceArchiveFileName: Path.Combine(path1: LocalPath, path2: Name), destinationDirectoryName: XtractionDirectory);
         }
 
         /// <summary>
@@ -73,7 +84,7 @@ namespace Auto_Soft_Installer
         /// <returns> Boolean </returns>
         public bool Setup()
         {
-            var softwareInformation = new ProcessStartInfo(fileName: XtractionDirectory + "\\" + SetupFile);
+            var softwareInformation = new ProcessStartInfo(fileName: Path.Combine(path1: XtractionDirectory, path2: SetupFile));
             try
             {
                 // Lancement du processus
@@ -97,7 +108,6 @@ namespace Auto_Soft_Installer
                 var message = "Erreur lors de l'installation du logiciel ( " +
                               softwareNames[index: softwareNames.Count - 1] + " )";
                 Library.Library.LogFileWriter(message: message);
-                Library.Library.MessageBoxDisplayer(message: message);
                 return false;
             }
             //if (software != null) software.Close();

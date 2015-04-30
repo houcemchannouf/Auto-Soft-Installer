@@ -18,7 +18,7 @@ namespace Auto_Soft_Installer
     ///     (Nommée Files pour ne pas confondre avec
     ///     la classe File du Framework .NET)
     /// </summary>
-    internal class Files
+    public class Files
     {
         #region Constructeur
 

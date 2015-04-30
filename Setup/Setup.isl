@@ -342,6 +342,8 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>Auto_Soft_Installer.exe</td><td>{4E876796-0CF2-43FF-95AB-60CB191DB7D9}</td><td>INSTALLDIR</td><td>2</td><td/><td>auto_soft_installer.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{1550982D-6AAB-4DAB-B2EC-EF520420F78C}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{9BCB9DCD-0535-4C73-A9B3-B4E1BDE9950D}</td><td>ENIT1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{C05324AC-F574-445A-B6C1-A05C2D1E98BE}</td><td>AUTO_SOFT_INSTALLER1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Library.dll</td><td>{2DC13987-69A5-49C9-824E-821BEBF08A29}</td><td>INSTALLDIR</td><td>2</td><td/><td>library.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
@@ -1052,6 +1054,7 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
+		<row><td>ENIT1</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1133,6 +1136,7 @@
 		<col def="S255">ISFolderName</col>
 		<row><td>ALLUSERSPROFILE</td><td>TARGETDIR</td><td>.:ALLUSE~1|All Users</td><td/><td>0</td><td/></row>
 		<row><td>AUTO_SOFT_INSTALLER</td><td>ENIT</td><td>AUTOSO~1|Auto Soft-Installer</td><td/><td>0</td><td/></row>
+		<row><td>AUTO_SOFT_INSTALLER1</td><td>ENIT1</td><td>AUTOSO~1|Auto Soft-Installer</td><td/><td>0</td><td/></row>
 		<row><td>AdminToolsFolder</td><td>TARGETDIR</td><td>.:Admint~1|AdminTools</td><td/><td>0</td><td/></row>
 		<row><td>AppDataFolder</td><td>TARGETDIR</td><td>.:APPLIC~1|Application Data</td><td/><td>0</td><td/></row>
 		<row><td>CommonAppDataFolder</td><td>TARGETDIR</td><td>.:Common~1|CommonAppData</td><td/><td>0</td><td/></row>
@@ -1141,6 +1145,7 @@
 		<row><td>DATABASEDIR</td><td>ISYourDataBaseDir</td><td>.</td><td/><td>0</td><td/></row>
 		<row><td>DesktopFolder</td><td>TARGETDIR</td><td>.:Desktop</td><td/><td>3</td><td/></row>
 		<row><td>ENIT</td><td>ProgramFilesFolder</td><td>ENIT</td><td/><td>0</td><td/></row>
+		<row><td>ENIT1</td><td>CommonFilesFolder</td><td>ENIT</td><td/><td>0</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
@@ -1867,6 +1872,8 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Auto_Soft_Installer.exe</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>AlwaysInstall</td><td>Library.dll</td></row>
 	</table>
 
@@ -1884,7 +1891,9 @@
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>auto_soft_installer.exe</td><td>Auto_Soft_Installer.exe</td><td>AUTOSO~1.EXE|Auto Soft-Installer.exe</td><td>0</td><td/><td/><td>0</td><td>1</td><td>C:\Users\Ahmed\Documents\Visual Studio 2013\Projects\PFA\Auto Soft-Installer\bin\Release\Auto Soft-Installer.exe</td><td>1</td><td/></row>
 		<row><td>auto_soft_installer.exe.conf</td><td>ISX_DEFAULTCOMPONENT</td><td>AUTOSO~1.CON|Auto Soft-Installer.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Ahmed\Documents\Visual Studio 2013\Projects\PFA\Auto Soft-Installer\bin\Release\Auto Soft-Installer.exe.config</td><td>1</td><td/></row>
+		<row><td>installed_softwares.xml2</td><td>ISX_DEFAULTCOMPONENT3</td><td>INSTAL~1.XML|Installed Softwares.xml</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Test\Installed Softwares.xml</td><td>1</td><td/></row>
 		<row><td>library.dll</td><td>Library.dll</td><td>Library.dll</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Users\Ahmed\Documents\Visual Studio 2013\Projects\PFA\Auto Soft-Installer\bin\Release\Library.dll</td><td>1</td><td/></row>
+		<row><td>log.txt</td><td>ISX_DEFAULTCOMPONENT3</td><td>Log.txt</td><td>0</td><td/><td/><td/><td>1</td><td>C:\ProgramData\ENIT\Auto Soft-Installer\Log.txt</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2031,6 +2040,8 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>Auto_Soft_Installer.exe</td><td/><td/><td>_B94EFFE5_DB1A_4386_BC63_569C4C5EBA33_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_CB281FCD_5C40_4F5E_9DC1_09C0D21D8469_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_2A466885_2D87_40F1_BA80_03D5A7D57C8C_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_45CCEBAE_9756_4A57_9591_2D1490C8FAE1_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Library.dll</td><td/><td/><td>_4F570B1A_CD21_4CC2_AC9D_EFA075DFD2ED_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
@@ -3462,6 +3473,7 @@
 		<row><td>IDS_SETUPEXE_EXPIRE_MSG</td><td>1033</td><td>This setup works until %s. The setup will now exit.</td><td>0</td><td/><td>-500965130</td></row>
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>1033</td><td>This setup was built with an evaluation version of InstallShield and can only be launched from setup.exe.</td><td>0</td><td/><td>-500965130</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>LAUNCH~1.EXE|Launch Auto Soft-Installer.exe</td><td>0</td><td/><td>-500965002</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>LAUNCH~1.EXE|Launch Auto Soft-Installer.exe</td><td>0</td><td/><td>-232580171</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>-500965130</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>-500965130</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>-500965130</td></row>

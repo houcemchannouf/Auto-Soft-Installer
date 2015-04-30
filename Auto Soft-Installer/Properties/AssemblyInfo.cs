@@ -12,7 +12,7 @@ using System.Resources;
 [assembly: AssemblyCompany("ENIT")]
 [assembly: AssemblyProduct("Auto Soft-Installer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Abdelkafi & Channouf")]
 [assembly: AssemblyCulture("")]
 
 // L'affectation de la valeur false à ComVisible rend les types invisibles dans cet assembly 

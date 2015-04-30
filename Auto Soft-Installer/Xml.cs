@@ -6,7 +6,7 @@
  * Ce fichier définit la classe Xml.
  * 
  * Cette classe sert a charger un fichier Xml à partir
- * d'un chemin, le convertir en objet de type Logiciels.
+ * d'un chemin, le convertir en objet de type Softwares.
  * 
 \******************************************************/
 
@@ -20,10 +20,19 @@ using System.Xml.Serialization;
 
 namespace Auto_Soft_Installer
 {
-    internal class Xml : Files
+    /// <summary>
+    ///     Cette classe sert a charger un fichier Xml à partir
+    ///     d'un chemin, le convertir en objet de type Softwares.
+    /// </summary>
+    public class Xml : Files
     {
         #region Constructeur
 
+        /// <summary>
+        ///     Constructeur
+        /// </summary>
+        /// <param name="localPath"></param>
+        /// <param name="name"></param>
         public Xml(string localPath, string name)
         {
             Name = name;
@@ -38,7 +47,7 @@ namespace Auto_Soft_Installer
         ///     Convertit le contenu du fihier XML en objet Logiciels, et le retourne .
         /// </summary>
         /// <returns> Logiciels </returns>
-        internal Softwares ObjectConversion()
+        public Softwares ObjectConversion()
         {
             Softwares xmlData = null;
             try

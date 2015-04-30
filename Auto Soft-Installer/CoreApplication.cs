@@ -23,7 +23,7 @@ namespace Auto_Soft_Installer
     ///     la liste des logiciels disponibles, et installe les
     ///     logiciels non installés sur le client.
     /// </summary>
-    internal class CoreApplication
+    public class CoreApplication
     {
         #region Constructeur
 
@@ -35,10 +35,10 @@ namespace Auto_Soft_Installer
             AnyException = false;
             IsFinished = false;
             _serverXmlFileName = Library.Library.SettingsReader(key: "serverXmlFileName");
-            _localXmlFileName = Library.Library.SettingsReader(key: "localXmlFileName");
-            _downloadDirectory = Library.Library.SettingsReader(key: "downloadDirectory");
-            _localXmlFile = new Xml(localPath: _downloadDirectory + "\\" + _localXmlFileName, name: _localXmlFileName);
-            _serverXmlFile = new Xml(localPath: _downloadDirectory + "\\" + _serverXmlFileName, name: _serverXmlFileName);
+            _localXmlFileName = "Installed Softwares.xml";
+            _downloadDirectory = Library.Library.GetAppDataPath();
+            _localXmlFile = new Xml(localPath: Path.Combine(path1: _downloadDirectory, path2: _localXmlFileName), name: _localXmlFileName);
+            _serverXmlFile = new Xml(localPath: Path.Combine(path1: _downloadDirectory, path2: _serverXmlFileName), name: _serverXmlFileName);
         }
 
         #endregion
@@ -55,8 +55,15 @@ namespace Auto_Soft_Installer
 
         #region Propriétés
 
-        internal bool AnyException { get; private set; } //  TRUE si il y a une exception, FALSE sinon
-        internal bool IsFinished { get; private set; } //  TRUE si le programme se termine correctement, FALSE sinon
+        /// <summary>
+        ///     TRUE si il y a une exception, FALSE sinon
+        /// </summary>
+        public bool AnyException { get; private set; }
+        
+        /// <summary>
+        ///     TRUE si le programme se termine correctement, FALSE sinon
+        /// </summary>
+        public bool IsFinished { get; private set; } 
 
         #endregion
 
@@ -66,12 +73,12 @@ namespace Auto_Soft_Installer
         ///     Lancement de toute l'application
         ///     à partir de cette méthode.
         /// </summary>
-        internal void Run()
+        public void Run()
         {
             Library.Library.LogFileWriter(message: "Program launched");
 
             //  Téléchargement du fichier XML à partir du serveur FTP
-            if (!Ftp.Download(fileName: _serverXmlFileName))
+            if (!Ftp.Download(fileName: _serverXmlFileName, downloadDirectory: _downloadDirectory))
                 OnException();
             else
             {
@@ -79,7 +86,7 @@ namespace Auto_Soft_Installer
                 var localElements = _localXmlFile.ObjectConversion();
 
                 //  Contient la liste des logiciels disponibles sur le serveur
-                var serverElements = _serverXmlFile.ObjectConversion();
+                var serverElements = _serverXmlFile.ObjectConversion(); 
 
                 //  Si une des deux listes est NULL => arrêt immédiat du programme
                 if (serverElements == null || localElements == null) OnException();
@@ -104,9 +111,9 @@ namespace Auto_Soft_Installer
                     for (var i = 0; i < serverElements.softwares.Count; i++)
                     {
                         //  Telechargement du fichier d'installation compressé
-                        Ftp.Download(fileName: serverElements.softwares[index: i].Name);
+                        Ftp.Download(fileName: serverElements.softwares[index: i].Name,downloadDirectory: _downloadDirectory);
 
-                        var I = new SoftwareSetup(setupFile: serverElements.softwares[index: i].SetupFile, localDirectory: _downloadDirectory + "\\", name: serverElements.softwares[index: i].Name);
+                        var I = new SoftwareSetup(setupFile: serverElements.softwares[index: i].SetupFile, localDirectory: _downloadDirectory, name: serverElements.softwares[index: i].Name);
 
                         //  Decompression des fichier d'installation
                         I.Unzip();
@@ -120,15 +127,15 @@ namespace Auto_Soft_Installer
                             localElements.softwares.Add(item: serverElements.softwares[index: i]);
 
                             //  Effacer les fichiers d'installation
-                            Directory.Delete(path: _downloadDirectory + "\\" + serverElements.softwares[index: i].Name.Replace(oldValue: ".zip", newValue: ""), recursive: true);
+                            Directory.Delete(path: Path.Combine(path1: _downloadDirectory, path2: serverElements.softwares[index: i].Name.Replace(oldValue: ".zip", newValue: "")), recursive: true);
                         }
 
                         //  Effacer l'archive téléchargé
-                        File.Delete(path: _downloadDirectory + "\\" + serverElements.softwares[index: i].Name);
+                        File.Delete(path: Path.Combine(path1: _downloadDirectory, path2: serverElements.softwares[index: i].Name));
                     }
 
                     //  Ecriture dans le fichier XML local
-                    localElements.XmlWriter(destinationPath: _downloadDirectory + "\\" + _localXmlFileName);
+                    localElements.XmlWriter(destinationPath: Path.Combine(path1: _downloadDirectory, path2: _localXmlFileName));
 
                     //  Programme executé sans erreurs ni exceptions (avec risque de logiciel non installé
                     //  car ça dépend des fichiers d'installations)
@@ -137,7 +144,7 @@ namespace Auto_Soft_Installer
                 }
 
                 //  Supprime le fichier logiciels.xml téléchargé du serveur FTP
-                File.Delete(path: _downloadDirectory + "\\" + _serverXmlFileName);
+                File.Delete(path: Path.Combine(path1: _downloadDirectory, path2: _serverXmlFileName));
             }
         }
 

@@ -12,14 +12,14 @@ using System.Resources;
 [assembly: AssemblyCompany("ENIT")]
 [assembly: AssemblyProduct("Library")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
-[assembly: AssemblyTrademark("Abdelkafi&Channouf")]
+[assembly: AssemblyTrademark("Abdelkafi & Channouf")]
 [assembly: AssemblyCulture("")]
 
 // L'affectation de la valeur false à ComVisible rend les types invisibles dans cet assembly 
 // aux composants COM.  Si vous devez accéder à un type dans cet assembly à partir de 
 // COM, affectez la valeur true à l'attribut ComVisible sur ce type.
 
-[assembly: ComVisible(true)]
+[assembly: ComVisible(false)]
 
 // Le GUID suivant est pour l'ID de la typelib si ce projet est exposé à COM
 
